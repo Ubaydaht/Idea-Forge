@@ -10,7 +10,7 @@ const Notification = () => {
   const userId = user.id;
 useEffect(() => {
 
-   axios.get(`http://localhost:2131/notifications/${userId}`)
+   axios.get(`https://forgeidea-vp95.onrender.com/notifications/${userId}`)
       .then((res) => {
          setNotifications(res.data);
       })

@@ -34,7 +34,7 @@ const NewIdea = () => {
    ...values,
    createdBy: user.id
 };
-            axios.post('http://localhost:2131/ideas', dataToSend)
+            axios.post('https://forgeidea-vp95.onrender.com/ideas', dataToSend)
                 .then(response => {
                     navigate('/dashhboard')
                 })

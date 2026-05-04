@@ -17,7 +17,7 @@ const Dashhboard = () => {
         const fetchIdeas = async () => {
             try {
                 let token = localStorage.token
-                const res = await axios.get("http://localhost:2131/ideas", {
+                const res = await axios.get("https://forgeidea-vp95.onrender.com/ideas", {
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json",
