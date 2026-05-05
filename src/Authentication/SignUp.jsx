@@ -1,98 +1,173 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useFormik } from 'formik'
-import axios from 'axios'
-import * as yup from 'yup'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import React from "react";
+import styled from "styled-components";
+import { useFormik } from "formik";
+import axios from "axios";
+import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const formik = useFormik({
-        initialValues: {
-            firstname: '',
-            lastname: '',
-            email: '',
-            password: ''
-        },
-        onSubmit: (values) => {
-            console.log(values)
-                    alert('Form submitted successfully')
-            axios.post('https://forgeidea-vp95.onrender.com/register', values)
-                .then(response => {
-                    navigate('/login')
-                })
-                .catch(error => {
-                    console.error('Error submitting form:', error)
-                })
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      setLoading(true);
+      axios
+        .post("https://forgeidea-vp95.onrender.com/register", values)
+        .then((response) => {
+          setLoading(false);
 
-                 
-        },
-        validationSchema: yup.object({
-            firstname: yup.string().required('First name is required'),
-            lastname: yup.string().required('Last name is required'),
-            email: yup.string().email('Invalid email format').required('Email is required'),
-            password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
         })
-    })
-    
+        .catch((error) => {
+          console.error("Error submitting form:", error);
+          setLoading(false);
+        });
+    },
+    validationSchema: yup.object({
+      firstname: yup.string().required("First name is required"),
+      lastname: yup.string().required("Last name is required"),
+      email: yup
+        .string()
+        .email("Invalid email format")
+        .required("Email is required"),
+      password: yup
+        .string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Password is required"),
+    }),
+  });
+
   return (
     <StyledContainer>
+      
       <LeftSection>
-        <LogoBrand>Idea<span style={{color:'blue'}}>Forge</span></LogoBrand>
+        <LogoBrand>
+          Idea<span style={{ color: "blue" }}>Forge</span>
+        </LogoBrand>
         <Description>
-          Unlock your creative potential and bring your brightest ideas to life. Join our community of innovators and make your vision a reality.
+          Unlock your creative potential and bring your brightest ideas to life.
+          Join our community of innovators and make your vision a reality.
         </Description>
 
-        <i>Already have an account? <Link to="/login">Signin</Link></i>
-
+        <i>
+          Already have an account? <Link to="/login">Signin</Link>
+        </i>
       </LeftSection>
-      <StyledWrapper onSubmit={formik.handleSubmit}>
-        <form className='sign' >
+      <StyledWrapper >
+        <form className="sign" onSubmit={formik.handleSubmit}>
           <div className="SignUp">
-        <div className="title">Welcome</div>
-        <div className="subtitle">Let's create your account!</div>
-        <div className="input-container ic1">
-          <input placeholder='First name' type="text" className="input" id="firstname" name="firstname" onChange={formik.handleChange}
-            onBlur={formik.handleBlur} />
+            <div className="title">Welcome</div>
+            <div className="subtitle">Let's create your account!</div>
+            <div className="input-container ic1">
+              <input
+                placeholder="First name"
+                type="text"
+                className="input"
+                id="firstname"
+                name="firstname"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
 
-        {formik.touched.firstname ? <p className="text-danger fs-6">{formik.errors.firstname}</p> : ""}
+              {formik.touched.firstname ? (
+                <p className="text-danger fs-6">{formik.errors.firstname}</p>
+              ) : (
+                ""
+              )}
 
-          <div className="cut" />
-          {/* <label className="iLabel" htmlFor="firstname">First name</label> */}
+              <div className="cut" />
+              {/* <label className="iLabel" htmlFor="firstname">First name</label> */}
+            </div>
+            <div className="input-container ic2">
+              <input
+                placeholder="Last name"
+                type="text"
+                className="input"
+                id="lastname"
+                name="lastname"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+
+              {formik.touched.lastname ? (
+                <p className="text-danger fs-6">{formik.errors.lastname}</p>
+              ) : (
+                ""
+              )}
+
+              <div className="cut" />
+              {/* <label className="iLabel" htmlFor="lastname">Last name</label> */}
+            </div>
+            <div className="input-container ic2">
+              <input
+                placeholder="Email"
+                type="text"
+                className="input"
+                id="email"
+                name="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <p className="text-danger fs-6">{formik.errors.email}</p>
+              ) : (
+                ""
+              )}
+
+              <div className="cut cut-short" />
+              {/* <label className="iLabel" htmlFor="email">Email</label> */}
+            </div>
+            <div className="input-container ic2">
+              <input
+                placeholder="Password"
+                type="password"
+                className="input"
+                id="password"
+                name="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <p className="text-danger fs-6">{formik.errors.password}</p>
+              ) : (
+                ""
+              )}
+            </div>
+            <button className="submit" type="submit">
+              Register
+            </button>
+          </div>
+        </form>
+        {loading && (
+  <div className="modal d-block" tabIndex="-1">
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-body">
+          <p className="fs-5">
+            Please wait... or click <Link to="/login">here</Link> to go to login page.
+          </p>
         </div>
-        <div className="input-container ic2">
-          <input placeholder= 'Last name' type="text" className="input" id="lastname" name="lastname" onChange={formik.handleChange}
-            onBlur={formik.handleBlur} />
-
-        {formik.touched.lastname ? <p className="text-danger fs-6">{formik.errors.lastname}</p> : ""}
-
-          <div className="cut" />
-          {/* <label className="iLabel" htmlFor="lastname">Last name</label> */}
-        </div>
-        <div className="input-container ic2">
-          <input placeholder='Email' type="text" className="input" id="email" name="email" onChange={formik.handleChange}
-            onBlur={formik.handleBlur} />
-                 {formik.touched.email && formik.errors.email ? <p className="text-danger fs-6">{formik.errors.email}</p> : ""}
-
-          <div className="cut cut-short" />
-          {/* <label className="iLabel" htmlFor="email">Email</label> */}
-        </div>
-        <div className="input-container ic2">
-          <input placeholder='Password' type="password" className="input" id="password" name="password" onChange={formik.handleChange}
-            onBlur={formik.handleBlur} />
-                 {formik.touched.password && formik.errors.password ? <p className="text-danger fs-6">{formik.errors.password}</p> : ""}
-
-        </div>
-        <button className="submit" type="submit">Register</button>
       </div>
-      </form>
-    </StyledWrapper>
+    </div>
+  </div>
+)}
+      </StyledWrapper>
+     
     </StyledContainer>
   );
-}
+};
 
 const StyledContainer = styled.div`
   display: flex;
@@ -104,7 +179,7 @@ const StyledContainer = styled.div`
   background-color: #0f0f1e;
   padding: 5px 20px;
   gap: 60px;
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 40px;
@@ -117,7 +192,7 @@ const LeftSection = styled.div`
   color: white;
   max-width: 500px;
   padding: 20px;
-  
+
   @media (max-width: 768px) {
     text-align: center;
   }
@@ -155,7 +230,7 @@ const Feature = styled.p`
   padding-left: 10px;
   border-left: 3px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
-  
+
   &:hover {
     border-left-color: #fff;
     color: #fff;
@@ -169,7 +244,7 @@ const StyledWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  
+
   .sign {
     display: flex;
     align-items: center;
@@ -178,7 +253,7 @@ const StyledWrapper = styled.div`
     padding: 10px;
     margin-top: 5px;
   }
-  
+
   .SignUp {
     background-color: #15172b;
     border-radius: 20px;
@@ -191,7 +266,7 @@ const StyledWrapper = styled.div`
 
   .title {
     color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 8px;
@@ -200,7 +275,7 @@ const StyledWrapper = styled.div`
 
   .subtitle {
     color: #eee;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 30px;
@@ -234,12 +309,12 @@ const StyledWrapper = styled.div`
     padding: 12px 15px;
     width: 100%;
     transition: all 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
     &::placeholder {
       color: #65657b;
     }
-    
+
     &:focus {
       background-color: #303245;
       border-color: #08d;
@@ -265,7 +340,7 @@ const StyledWrapper = styled.div`
 
   .iLabel {
     color: #65657b;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     left: 20px;
     line-height: 14px;
     pointer-events: none;
@@ -304,25 +379,25 @@ const StyledWrapper = styled.div`
     text-align: center;
     width: 100%;
     transition: all 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
     &:hover {
       transform: translateY(-2px);
       background-color: #0aa;
       box-shadow: 0 10px 25px rgba(0, 136, 221, 0.4);
     }
-    
+
     &:active {
       transform: translateY(0);
       background-color: #08d;
       box-shadow: 0 5px 15px rgba(0, 136, 221, 0.3);
     }
   }
-  
+
   a {
     width: 100%;
     text-decoration: none;
-    
+
     .submit {
       width: 100%;
     }
