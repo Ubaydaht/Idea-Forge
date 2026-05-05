@@ -87,11 +87,10 @@ const IdeaDetail = () => {
                 {/* LEFT SIDE */}
                 <div className='left'>
 
-                    <div className='d-flex justify-content-between'>
+                    <div className=' top d-flex justify-content-between'>
                         <span className='rounded-pill bg-dark text-light px-2'>
                             {idea.category}
                         </span>
-
                         <span>
                             Posted by:{" "}
                             {idea.createdBy?.firstname}{" "}

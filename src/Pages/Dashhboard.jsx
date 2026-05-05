@@ -129,7 +129,7 @@ const Dashhboard = () => {
               borderBottomLeftRadius: "0.5rem",
             }}
           />
-          <div className=" w-50 ps-3 pt-3">
+          <div className=" w-50 ps-3 pt-3 mb-3">
             <div className="d-flex gap-3">
               <img
                 src="/idea.jpg"
@@ -167,11 +167,11 @@ const Dashhboard = () => {
               </span>
             </div>
             <button
-              className="btn btn-dark d-flex align-items-center justify-content-center rounded-pill"
+              className="btn btn-dark d-flex align-items-center justify-content-center rounded-pill "
               style={{ fontSize: "12px", width: "95%", backgroundColor:'#68FADD', border:'none' }}
             >
               <img src="/upvote.svg" alt=""  width={"10px"}/>
-              <span className="text-dark ps-2">Upvote</span>
+              <span className="text-dark ps-2 ">Upvote</span>
             </button>
           </div>
         </div>

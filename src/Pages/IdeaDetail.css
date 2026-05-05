@@ -18,4 +18,9 @@
         width: 100%;
         margin-bottom: 20px;
     }
+    .top{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }
