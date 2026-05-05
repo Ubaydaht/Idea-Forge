@@ -21,7 +21,7 @@ const SignIn = () => {
         axios.post('https://forgeidea-vp95.onrender.com/login', credentials)
             .then(response => {
                 if (response.data.message === 'Login Successful'){ 
-                alert('Login successful')
+                // alert('Login successful')
                 // console.log(response.data.firstName)
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 localStorage.token = response.data.user.token
