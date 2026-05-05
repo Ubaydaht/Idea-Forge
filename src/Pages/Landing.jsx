@@ -15,10 +15,9 @@ const Landing = () => {
         <div className="wave" />
         <div className="wave" />
       
-         <div className="infotop"  >    
-           <span style={{fontSize: '40px'}}>Idea<span style={{color:'blue'}}>Forge</span> </span>
-          <br />
-          <p style={{fontSize:'30px'}} >Share Ideas, Collaborate, Build Together </p>  
+         <div className="infotop d-flex flex-column align-items-center"  >    
+           <span style={{fontSize: '50px', color:'blue'}}>Idea<span style={{color:'white'}}>Forge</span> </span>
+          <p className='para' >Share Ideas, Collaborate, Build Together. </p>  
 
            <Button/>     
         </div>

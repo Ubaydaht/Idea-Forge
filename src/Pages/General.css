@@ -1,11 +1,17 @@
 
 
 
-
+.para{
+    font-size: 30px;
+    color: white;
+}
 
 
 @media (max-width:767px) {
     .infotop{
         margin-top: 15%;
+    }
+    .para{
+        font-size: 40px;
     }
 }
