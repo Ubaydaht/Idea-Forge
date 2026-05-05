@@ -20,7 +20,7 @@ const SignUp = () => {
         onSubmit: (values) => {
             console.log(values)
                     alert('Form submitted successfully')
-            axios.post('http://localhost:2131/register', values)
+            axios.post('https://forgeidea-vp95.onrender.com/register', values)
                 .then(response => {
                     navigate('/login')
                 })

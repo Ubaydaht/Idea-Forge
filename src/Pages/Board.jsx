@@ -12,7 +12,7 @@ const Board = () => {
 
   useEffect(() => {
 
-    axios.get(`http://localhost:2131/board/${ideaId}`)
+    axios.get(`https://forgeidea-vp95.onrender.com/board/${ideaId}`)
       .then((res) => {
         setBoard(res.data);
         setLoading(false);

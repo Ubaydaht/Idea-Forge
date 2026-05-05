@@ -16,7 +16,7 @@ const IdeaDetail = () => {
     // ========================
     const fetchIdea = async () => {
         try {
-            const res = await axios.get(`http://localhost:2131/ideas/${id}`);
+            const res = await axios.get(`https://forgeidea-vp95.onrender.com/ideas/${id}`);
             setIdea(res.data.idea);
         } catch (err) {
             console.log(err);
@@ -35,7 +35,7 @@ const IdeaDetail = () => {
         const user = JSON.parse(localStorage.getItem("user"));
 
         try {
-            await axios.put("http://localhost:2131/ideas/upvote", {
+            await axios.put("https://forgeidea-vp95.onrender.com/ideas/upvote", {
                 ideaId: id,
                 userId: user.id
             });
@@ -56,7 +56,7 @@ const IdeaDetail = () => {
         const user = JSON.parse(localStorage.getItem("user"));
 
         try {
-            await axios.put("http://localhost:2131/ideas/comment", {
+            await axios.put("https://forgeidea-vp95.onrender.com/ideas/comment", {
                 ideaId: id,
                 userId: user.id,
                 text: comment

@@ -18,7 +18,7 @@ const SignIn = () => {
 
         const credentials = {email, password}
 
-        axios.post('http://localhost:2131/login', credentials)
+        axios.post('https://forgeidea-vp95.onrender.com/login', credentials)
             .then(response => {
                 if (response.data.message === 'Login Successful'){ 
                 alert('Login successful')
