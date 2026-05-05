@@ -5,7 +5,7 @@ input{
     padding: 10px;
 }
 form{
-    background-color: #0f0f1e;
+    background-color: #003D9B;
     padding: 20px;
     border-radius: 10px;
     color: #fff;
@@ -13,7 +13,7 @@ form{
 }
 form button{
     background-color: #fff;
-    color: #0f0f1e;
+    color: #003D9B;
     border: none;
     /* padding: 10px 20px; */
     border-radius: 20px;

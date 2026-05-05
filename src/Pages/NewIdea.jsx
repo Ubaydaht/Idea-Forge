@@ -49,8 +49,8 @@ const NewIdea = () => {
             category: yup.string().required('Category is required'),
             shortDescription: yup.string().required('Description is required'),
             fullIdeaDetails: yup.string().required('Full idea details is required'),
-            tag1: yup.string().required('At least one tag is required'),
-            tag2: yup.string(),
+            tag1: yup.string().required('tag is required'),
+            tag2: yup.string().required('tag isrequired'),
             requiredRole1: yup.string(),
             requiredRole2: yup.string(),
             requiredRole3: yup.string(),
@@ -69,9 +69,6 @@ const NewIdea = () => {
           </Link>
           <span>New Idea</span>
          </div>
-         <button className='btn btn-sm text-white rounded-pill' style={{backgroundColor: '#0f0f1e'}} onClick={formik.handleSubmit}>
-           Publish
-         </button>
         </nav>
         
         <div className='d-flex justify-content-center align-items-center'>
@@ -118,6 +115,9 @@ const NewIdea = () => {
              <input type="" className='w-100' name='requiredRole3 ' onChange={formik.handleChange}/>
             <input type="" className='w-100' name='requiredRole4' onChange={formik.handleChange}/>
            </div>
+           <button className='btn btn-light text-white rounded-pill' style={{backgroundColor: '#003D9B'}} onClick={formik.handleSubmit}>
+           Publish
+         </button>
           
         </form>
         </div>

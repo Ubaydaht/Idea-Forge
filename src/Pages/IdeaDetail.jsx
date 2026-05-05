@@ -82,7 +82,7 @@ const IdeaDetail = () => {
         <>
             <DashboardNav />
 
-            <section className='d-flex justify-content-between p-5'>
+            <section className='d-md-flex justify-content-between gap-3  p-5'>
 
                 {/* LEFT SIDE */}
                 <div className='left'>
@@ -116,16 +116,16 @@ const IdeaDetail = () => {
 
                 {/* RIGHT SIDE */}
                 <div className='right'>
-
-                    <button className='btn w-100 bg-dark text-light rounded-pill'>
+                    <button className='btn w-100 text-light rounded-pill' style={{backgroundColor:'#003D9B'}}>
                         Join Team
                     </button>
 
                     <button
-                        className='btn w-100 bg-dark text-light rounded-pill mt-2'
+                        className='btn w-100 d-flex alighn-items-center justify-content-center  text-light rounded-pill mt-2' style={{backgroundColor:'#68FADD'}} 
                         onClick={handleUpvote}
                     >
-                        Upvote Idea ({idea.upvotes?.length || 0})
+                        <img src="/upvot.svg" alt="" />
+                        Upvote Idea {idea.upvotes?.length || 0}
                     </button>
 
                     {/* REQUIRED ROLES */}
@@ -158,6 +158,8 @@ const IdeaDetail = () => {
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="Write a comment..."
+                        style={{backgroundColor:'#cccccc8c', border:'none', padding: '10px', borderRadius:'10px'}}
+
                     />
 
                     <button
@@ -169,13 +171,16 @@ const IdeaDetail = () => {
 
                     {/* COMMENT LIST */}
                     {idea.comments?.map((c, index) => (
-                        <div key={index} className="border p-2 mt-2">
+                        <div key={index} className=" p-2 mt-2 border rounded-3 text-light" style={{backgroundColor:'#003D9B'}}>
 
-                            <b>
+                            <div className='d-flex gap-3'>
+                               <img src="/idea.jpg" alt="" width={"30px"}className="rounded-circle"/>
+                                <b>
                                 {c.user?.firstname} {c.user?.lastname}
                             </b>
+                            </div>
 
-                            <p>{c.text}</p>
+                            <p className='ps-5'>{c.text}</p>
 
                         </div>
                     ))}
