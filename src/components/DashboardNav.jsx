@@ -6,9 +6,9 @@ const DashboardNav = () => {
     <>
       <nav class="navbar navbar-expand-md" style={{backgroundColor:'#F0F1F5', position:'sticky', top:'0', zIndex:'1000'}}>
         <div class="container-fluid">
-          <a className="navbar-brand" href="#">
+          <Link to='/dashhboard' className="navbar-brand" href="#">
             <span className="text-primary">Idea</span>Forge
-          </a>
+          </Link>
           <button
             class="navbar-toggler"
             type="button"
@@ -25,9 +25,9 @@ const DashboardNav = () => {
               <Link to='/dashhboard' class="nav-link active" aria-current="page" href="#">
                 Explore
               </Link>
-              <a class="nav-link" href="#">
+              <Link to='/board' class="nav-link" href="#">
                 Board
-              </a>
+              </Link>
               <Link to='/notifications' class="nav-link" href="#">
                 Activity
               </Link>

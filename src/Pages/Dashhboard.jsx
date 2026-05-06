@@ -188,12 +188,14 @@ const Dashhboard = () => {
           <p className="fs-5">
             Have a seed of an idea? Launch it now and find your collective.
           </p>
-          <button
+         <Link to="/newidea" style={{textDecoration: 'none'}}>
+           <button
             className="btn btn-light d-flex align-items-center justify-content-center rounded-pill my-4"
             style={{ fontSize: "12px", width: "95%" }}
           >
-            <img src="" alt="" /> Create New Seed
+            <img src="" alt="" /> Launch your Idea
           </button>
+          </Link>
         </div>
       </section>
 
