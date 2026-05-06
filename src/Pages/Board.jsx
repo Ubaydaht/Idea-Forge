@@ -3,6 +3,7 @@ import DashboardNav from '../components/DashboardNav'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import './General.css'
+import {  DragDropContext,  Droppable,  Draggable} from "@hello-pangea/dnd";
 
 const Board = () => {
   const { id } = useParams();
@@ -116,6 +117,37 @@ const moveTask = async (status) => {
   }
 };
 
+
+const handleDragEnd = async (result) => {
+
+  if (!result.destination) return;
+
+  const taskId = result.draggableId;
+  const newStatus = result.destination.droppableId;
+
+  try {
+
+    await axios.put(
+      `https://forgeidea-vp95.onrender.com/tasks/status/${taskId}`,
+      {
+        status: newStatus
+      }
+    );
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task._id === taskId
+          ? { ...task, status: newStatus }
+          : task
+      )
+    );
+
+  } catch (err) {
+    console.log(err);
+  }
+
+};
+
   return (
     <>
       <DashboardNav />
@@ -127,189 +159,304 @@ const moveTask = async (status) => {
         <span>
           {idea.shortDescription}
         </span>
+        <DragDropContext onDragEnd={handleDragEnd}>
+
         <section className='d-md-flex justify-content-between pt-4'>
-          <div className='toCard'  onDragOver={(e) => e.preventDefault()}
-  onDrop={() => moveTask("todo")}>
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 style={{color:'#003D9B'}}>To Do</h5>
-              <img src="/more.svg" alt="" />
-            </div>
-            {tasks.filter(t => t.status === "todo")
-    .map(task => (
-      <div
-        key={task._id}
-        draggable
-        onDragStart={() => setDraggedTask(task)}
-        style={{
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "10px",
-          marginTop: "10px",
-          cursor: "grab"
-        }}
-  >
-    <div>
-      <h6>{task.title}</h6>
-      <p>{task.description}</p>
-    </div>
-    <img src="/delete.svg" alt=""   style={{ width: "15px", cursor: "pointer" }}
-  onClick={() => deleteTask(task._id)} />
+         <Droppable droppableId="todo">
+  {(provided) => (
 
-  </div>
-
-))}
-            <button className='btn border w-100 d-flex align-items-center justify-content-center rounded-pill mt-3' style={{backgroundColor:'#68FADD'}}
-            onClick={() => setShowModal(true)}>
-              <img src="/add.svg" alt="" />
-              Add Task
-            </button>
-            {
-  showModal && (
     <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
+      className='toCard'
+      ref={provided.innerRef}
+      {...provided.droppableProps}
     >
-      <div
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          width: "300px"
-        }}
-      >
-        <h3>Add Task</h3>
 
-        <input
-          type="text"
-          placeholder="Task title"
-          className="form-control my-2"
-          value={taskTitle}
-          onChange={(e) => setTaskTitle(e.target.value)}
-        />
+      <div className="d-flex justify-content-between align-items-center">
+        <h5 style={{ color:'#003D9B' }}>To Do</h5>
+        <img src="/more.svg" alt="" />
+      </div>
 
-        <textarea
-          placeholder="Task description"
-          className="form-control my-2"
-          value={taskDescription}
-          onChange={(e) => setTaskDescription(e.target.value)}
-        ></textarea>
+      {tasks
+        .filter(t => t.status === "todo")
+        .map((task, index) => (
 
-        <div className="d-flex gap-2 mt-3">
-          <button
-            className="btn btn-secondary w-50"
-            onClick={() => setShowModal(false)}
+          <Draggable
+            key={task._id}
+            draggableId={task._id}
+            index={index}
           >
-            Cancel
-          </button>
 
-          <button className="btn btn-primary w-50" onClick={saveTask}>
-            Save
-          </button>
+            {(provided) => (
+
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={{
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                  cursor: "grab",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  ...provided.draggableProps.style
+                }}
+              >
+
+                <div>
+                  <h6>{task.title}</h6>
+                  <p>{task.description}</p>
+                </div>
+
+                <img
+                  src="/delete.svg"
+                  alt=""
+                  style={{
+                    width: "15px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => deleteTask(task._id)}
+                />
+
+              </div>
+
+            )}
+
+          </Draggable>
+
+      ))}
+
+      {provided.placeholder}
+
+      <button
+        className='btn border w-100 d-flex align-items-center justify-content-center rounded-pill mt-3'
+        style={{ backgroundColor:'#68FADD' }}
+        onClick={() => setShowModal(true)}
+      >
+        <img src="/add.svg" alt="" />
+        Add Task
+      </button>
+
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <div
+            style={{
+              background: "white",
+              padding: "20px",
+              borderRadius: "10px",
+              width: "300px"
+            }}
+          >
+            <h3>Add Task</h3>
+
+            <input
+              type="text"
+              placeholder="Task title"
+              className="form-control my-2"
+              value={taskTitle}
+              onChange={(e) => setTaskTitle(e.target.value)}
+            />
+
+            <textarea
+              placeholder="Task description"
+              className="form-control my-2"
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
+            ></textarea>
+
+            <div className="d-flex gap-2 mt-3">
+
+              <button
+                className="btn btn-secondary w-50"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="btn btn-primary w-50"
+                onClick={saveTask}
+              >
+                Save
+              </button>
+
+            </div>
+
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
-  )
-}
-          </div>
-          <div className='toCard'  onDragOver={(e) => e.preventDefault()}
-  onDrop={() => moveTask("progress")}>
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 style={{color:'#003D9B'}}>In Progress</h5>
-              <img src="/more.svg" alt="" />
-            </div>
-            {tasks
-  .filter(t => t.status === "progress")
-  .map(task => (
+
+  )}
+</Droppable>
+
+
+
+
+<Droppable droppableId="progress">
+  {(provided) => (
 
     <div
-      key={task._id}
-      draggable
-      onDragStart={() => setDraggedTask(task)}
-      style={{
-        backgroundColor: "white",
-        padding: "10px",
-        borderRadius: "10px",
-        marginTop: "10px",
-        cursor: "grab"
-      }}
-      className='d-flex justify-content-between align-items-center'
+      className='toCard'
+      ref={provided.innerRef}
+      {...provided.droppableProps}
     >
 
-      <div>
-        <h6>{task.title}</h6>
-        <p>{task.description}</p>
+      <div className="d-flex justify-content-between align-items-center">
+        <h5 style={{ color:'#003D9B' }}>In Progress</h5>
+        <img src="/more.svg" alt="" />
       </div>
 
-      <img
-        src="/delete.svg"
-        alt=""
-        style={{
-          width: "15px",
-          cursor: "pointer"
-        }}
-        onClick={() => deleteTask(task._id)}
-      />
+      {tasks
+        .filter(t => t.status === "progress")
+        .map((task, index) => (
+
+          <Draggable
+            key={task._id}
+            draggableId={task._id}
+            index={index}
+          >
+
+            {(provided) => (
+
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={{
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                  cursor: "grab",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  ...provided.draggableProps.style
+                }}
+              >
+
+                <div>
+                  <h6>{task.title}</h6>
+                  <p>{task.description}</p>
+                </div>
+
+                <img
+                  src="/delete.svg"
+                  alt=""
+                  style={{
+                    width: "15px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => deleteTask(task._id)}
+                />
+
+              </div>
+
+            )}
+
+          </Draggable>
+
+      ))}
+
+      {provided.placeholder}
 
     </div>
 
-))}
-           
-          </div>
-          <div className='toCard'  onDragOver={(e) => e.preventDefault()}
-  onDrop={() => moveTask("done")}>
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 style={{color:'#003D9B'}}>Done</h5>
-              <img src="/more.svg" alt="" />
-            </div>
-           {tasks
-  .filter(t => t.status === "done")
-  .map(task => (
+  )}
+</Droppable>
+
+
+
+        <Droppable droppableId="done">
+  {(provided) => (
 
     <div
-      key={task._id}
-      draggable
-      onDragStart={() => setDraggedTask(task)}
-      style={{
-        backgroundColor: "white",
-        padding: "10px",
-        borderRadius: "10px",
-        marginTop: "10px",
-        cursor: "grab"
-      }}
-      className='d-flex justify-content-between align-items-center'
+      className='toCard'
+      ref={provided.innerRef}
+      {...provided.droppableProps}
     >
 
-      <div>
-        <h6>{task.title}</h6>
-        <p>{task.description}</p>
+      <div className="d-flex justify-content-between align-items-center">
+        <h5 style={{ color:'#003D9B' }}>Done</h5>
+        <img src="/more.svg" alt="" />
       </div>
 
-      <img
-        src="/delete.svg"
-        alt=""
-        style={{
-          width: "15px",
-          cursor: "pointer"
-        }}
-        onClick={() => deleteTask(task._id)}
-      />
+      {tasks
+        .filter(t => t.status === "done")
+        .map((task, index) => (
+
+          <Draggable
+            key={task._id}
+            draggableId={task._id}
+            index={index}
+          >
+
+            {(provided) => (
+
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={{
+                  backgroundColor: "white",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                  cursor: "grab",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  ...provided.draggableProps.style
+                }}
+              >
+
+                <div>
+                  <h6>{task.title}</h6>
+                  <p>{task.description}</p>
+                </div>
+
+                <img
+                  src="/delete.svg"
+                  alt=""
+                  style={{
+                    width: "15px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => deleteTask(task._id)}
+                />
+
+              </div>
+
+            )}
+
+          </Draggable>
+
+      ))}
+
+      {provided.placeholder}
 
     </div>
 
-))}
-            
-          </div>
+  )}
+</Droppable>
         </section>
-
+</DragDropContext>
       </div>
     </>
   )
