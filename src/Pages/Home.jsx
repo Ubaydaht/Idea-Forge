@@ -1,12 +1,12 @@
 import React from 'react'
-import Nav from '../components/Nav'
-import IdeaHero from './IdeaHero'
+
+
 
 const Home = () => {
    
   return (
     <>
-        <Nav/>
+      
         <div className="hero ps-5 py-4" style={{backgroundColor:'#B9D1D3 '}}>
             <div className='py-3 ' style={{fontSize: '25px'}}>
                 <span className='d-block'>Share Ideas</span>

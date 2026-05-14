@@ -9,12 +9,15 @@ import { Link } from 'react-router-dom'
 const SignIn = () => {
   const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate()
 
 
     const signIn = (e) => {
         e.preventDefault()
+          setLoading(true);
+
 
         const credentials = {email, password}
 
@@ -30,6 +33,7 @@ const SignIn = () => {
                 localStorage.token = response.data.user.token
 
                 navigate('/dashhboard')
+                  setLoading(false);
                 }else {
                     alert(response.data.message || "Invalid credentials");
                 }
@@ -69,7 +73,7 @@ const SignIn = () => {
                />
               <div className="cut cut-short" />
             </div>
-            <button className="submit" type="button"  onClick={(e) => {signIn(e)}}>Sign In</button>
+            <button className="submit" type="button"  onClick={(e) => {signIn(e)}}> {loading ? "Signing In..." : "Sign In"}</button>
             <div className="signup-link">
               Don't have an account? <Link to='/signup'>Sign up</Link>
             </div>
