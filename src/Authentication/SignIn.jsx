@@ -18,13 +18,17 @@ const SignIn = () => {
 
         const credentials = {email, password}
 
+        
+
         axios.post('https://forgeidea-vp95.onrender.com/login', credentials)
             .then(response => {
                 if (response.data.message === 'Login Successful'){ 
                 // alert('Login successful')
                 // console.log(response.data.firstName)
+                
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 localStorage.token = response.data.user.token
+
                 navigate('/dashhboard')
                 }else {
                     alert(response.data.message || "Invalid credentials");

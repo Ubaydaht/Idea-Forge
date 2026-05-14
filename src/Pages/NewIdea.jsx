@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
+import DashboardNav from '../components/DashboardNav';
 
 
 const NewIdea = () => {
@@ -61,6 +62,7 @@ const NewIdea = () => {
  
   return (
     <>
+    <DashboardNav/>
        <section className='px-5'>
          <nav className='d-flex justify-content-between align-items-center py-3'>
          <div className='d-flex align-items-center gap-4'>

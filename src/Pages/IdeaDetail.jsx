@@ -79,6 +79,9 @@ const IdeaDetail = () => {
   return (
     <>
       <DashboardNav />
+      <Link to='/dashhboard' className='d-flex align-items-center gap-2 p-3' style={{textDecoration:'none', color:'#003D9B'}}>
+         <span className='fw-bold ps-3' style={{fontSize:'10px'}}><img src="/left.svg" alt="" />BACK TO DASHBOARD</span>
+        </Link>
 
       <section className="d-md-flex justify-content-between gap-3  p-5">
         {/* LEFT SIDE */}
@@ -178,9 +181,9 @@ const IdeaDetail = () => {
             >
               <div className="d-flex gap-3">
                 <img
-                  src="/idea.jpg"
+                  src={c.user?.image}
                   alt=""
-                  width={"30px"}
+                  width={"30px"} height={'30px'}
                   className="rounded-circle"
                 />
                 <b>

@@ -18,23 +18,48 @@ const SignUp = () => {
       lastname: "",
       email: "",
       password: "",
+      image: null,
     },
-    onSubmit: (values) => {
-      setLoading(true);
-      axios
-        .post("https://forgeidea-vp95.onrender.com/register", values)
-        .then((response) => {
-          setLoading(false);
+   onSubmit: (values) => {
+    console.log(values)
 
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error("Error submitting form:", error);
-          setLoading(false);
-        });
-    },
+  setLoading(true);
+
+  const formData = new FormData();
+
+  formData.append("firstname", values.firstname);
+  formData.append("lastname", values.lastname);
+  formData.append("email", values.email);
+  formData.append("password", values.password);
+  formData.append("image", values.image);
+
+  axios.post(
+    "https://forgeidea-vp95.onrender.com/register",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+    
+  )
+  .then((response) => {
+
+    setLoading(false);
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+
+  })
+  .catch((error) => {
+
+    console.error("Error submitting form:", error);
+    setLoading(false);
+
+  });
+
+},
     validationSchema: yup.object({
       firstname: yup.string().required("First name is required"),
       lastname: yup.string().required("Last name is required"),
@@ -46,6 +71,7 @@ const SignUp = () => {
         .string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
+      image: yup.mixed().required("Image is required")
     }),
   });
 
@@ -71,80 +97,30 @@ const SignUp = () => {
             <div className="title">Welcome</div>
             <div className="subtitle">Let's create your account!</div>
             <div className="input-container ic1">
-              <input
-                placeholder="First name"
-                type="text"
-                className="input"
-                id="firstname"
-                name="firstname"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-
-              {formik.touched.firstname ? (
-                <p className="text-danger fs-6">{formik.errors.firstname}</p>
-              ) : (
-                ""
-              )}
-
-              <div className="cut" />
-              {/* <label className="iLabel" htmlFor="firstname">First name</label> */}
+              <input placeholder="First name" type="text" className="input"
+                id="firstname" name="firstname" onChange={formik.handleChange}
+                onBlur={formik.handleBlur}/>
+              {formik.touched.firstname ? (<p className="text-danger fs-6">{formik.errors.firstname}</p>) : ("")}
             </div>
             <div className="input-container ic2">
-              <input
-                placeholder="Last name"
-                type="text"
-                className="input"
-                id="lastname"
-                name="lastname"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-
-              {formik.touched.lastname ? (
-                <p className="text-danger fs-6">{formik.errors.lastname}</p>
-              ) : (
-                ""
-              )}
-
-              <div className="cut" />
-              {/* <label className="iLabel" htmlFor="lastname">Last name</label> */}
+              <input placeholder="Last name" type="text" className="input" id="lastname"
+                name="lastname" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.lastname ? (<p className="text-danger fs-6">{formik.errors.lastname}</p>) : ("")}
+          </div>
+            <div className="input-container ic2">
+              <input placeholder="Email" type="text" className="input" id="email" name="email"
+                onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.email && formik.errors.email ? (<p className="text-danger fs-6">{formik.errors.email}</p>) : ("")}
             </div>
             <div className="input-container ic2">
-              <input
-                placeholder="Email"
-                type="text"
-                className="input"
-                id="email"
-                name="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.email && formik.errors.email ? (
-                <p className="text-danger fs-6">{formik.errors.email}</p>
-              ) : (
-                ""
-              )}
-
-              <div className="cut cut-short" />
-              {/* <label className="iLabel" htmlFor="email">Email</label> */}
+              <input placeholder="Password" type="password" className="input" id="password"
+                name="password" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.password && formik.errors.password ? (<p className="text-danger fs-6">{formik.errors.password}</p>) : ("")}
             </div>
             <div className="input-container ic2">
-              <input
-                placeholder="Password"
-                type="password"
-                className="input"
-                id="password"
-                name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.password && formik.errors.password ? (
-                <p className="text-danger fs-6">{formik.errors.password}</p>
-              ) : (
-                ""
-              )}
-            </div>
+              <input  type="file"  className="input p-2" id="image" name='image' onChange={(event) => {formik.setFieldValue("image", event.currentTarget.files[0]); }}/>
+              {formik.touched.image && formik.errors.image? (<p className="text-danger fs-6">{formik.errors.image}</p>) : ("")}
+            </div>            
             <button className="submit" type="submit">
               Register
             </button>
@@ -249,16 +225,14 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+    width: 100%; 
   }
 
   .SignUp {
-    background-color: #15172b;
+    background-color: #0f0f1e;
     border-radius: 20px;
     box-sizing: border-box;
-    padding: 50px 40px;
+    padding: 10px 40px;
     width: 100%;
     max-width: 400px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -283,10 +257,10 @@ const StyledWrapper = styled.div`
   }
 
   .input-container {
-    height: 45px;
+    height: 37px;
     position: relative;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   .ic1 {
@@ -303,7 +277,7 @@ const StyledWrapper = styled.div`
     border: 2px solid #303245;
     box-sizing: border-box;
     color: #eee;
-    font-size: 16px;
+    font-size: 14px;
     height: 100%;
     outline: 0;
     padding: 12px 15px;
@@ -338,17 +312,6 @@ const StyledWrapper = styled.div`
     width: 50px;
   }
 
-  .iLabel {
-    color: #65657b;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    left: 20px;
-    line-height: 14px;
-    pointer-events: none;
-    position: absolute;
-    transition: all 200ms;
-    top: 15px;
-  }
-
   .input:focus ~ .cut {
     transform: translateY(8px);
   }
@@ -374,8 +337,8 @@ const StyledWrapper = styled.div`
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    height: 45px;
-    margin-top: 10px;
+    height: 40px;
+    margin-top: 5px;
     text-align: center;
     width: 100%;
     transition: all 0.3s ease;

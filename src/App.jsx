@@ -10,6 +10,7 @@ import NewIdea from "./Pages/NewIdea";
 import IdeaDetail from "./Pages/IdeaDetail";
 import Notification from "./Pages/Notification";
 import Board from "./Pages/Board";
+import Profile from "./Pages/Profile";
 
 const App = () => {
   let token = localStorage.token;
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/idea/:id" element={<IdeaDetail />} />
         <Route path="/notifications" element={<Notification />} />
         <Route path="/board/:id" element={<Board />} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
     </>
   );

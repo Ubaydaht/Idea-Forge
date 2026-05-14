@@ -70,10 +70,57 @@ const Dashhboard = () => {
   }
 };
 
+
+//search functionality
+const [search, setSearch] = useState('');
+useEffect(() => {
+
+  const fetchIdeas = async () => {
+    try {
+      let token = localStorage.token;
+
+      const res = await axios.get(
+        "https://forgeidea-vp95.onrender.com/ideas",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIdeas(res.data.ideas);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // If search is empty, fetch all ideas
+  if (!search.trim()) {
+    fetchIdeas();
+
+    return;
+  }
+
+  // Search ideas
+  const delay = setTimeout(() => {
+
+    axios.get(
+      `https://forgeidea-vp95.onrender.com/search?q=${search}`
+    )
+    .then(res => setIdeas(res.data.ideas))
+    .catch(err => console.log(err));
+
+  }, 500);
+
+  return () => clearTimeout(delay);
+
+}, [search]);
+
   return (
     <>
       <DashboardNav />
-      <h1 className="p-3" style={{ fontSize: "40px", color: "#0f0f1e" }}>
+      <h1 className="p-3" style={{ fontSize: "40px", color: "#003D9B" }}>
         Discovery Feed
       </h1>
       <div className="d-md-flex justify-content-between px-3">
@@ -82,17 +129,21 @@ const Dashhboard = () => {
           <br /> community. Collaborate on the next breakthrough.
         </p>
         <input
-          style={{ height: "40px", width: "300px", border: "2px solid #ccc" }}
-          className="ps-2 rounded-pill"
-          type="text"
-          placeholder="Search ideas, tags or creators"
-        />
+  style={{ height: "40px", width: "300px", border: "2px solid #ccc" }}
+  className="ps-2 rounded-pill"
+  type="text"
+  placeholder="Search ideas by title or category..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+
+/>
+
       </div>
       <div className="d-flex justify-content-between p-3">
         <div className="d-flex gap-3">
           <button
             className="rounded-pill border border-none text-white fw-medium"
-            style={{ backgroundColor: "#0f0f1e", fontSize: "12px" }}
+            style={{ backgroundColor: "#003D9B", fontSize: "12px" }}
           >
             Trending
           </button>
@@ -114,7 +165,8 @@ const Dashhboard = () => {
       </div>
 
       {/* first row */}
-      <section className="d-md-flex  w-100 gap-4 p-3 flexx">
+      {!search.trim() && (
+      <section className="d-md-flex  w-100 gap-4 p-3 flexx"  >
         <div
           className="cardd d-flex rounded-3"
           style={{ boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.5)" }}
@@ -198,6 +250,7 @@ const Dashhboard = () => {
           </Link>
         </div>
       </section>
+      )}
 
       <Link to="/newidea">
         <button
@@ -217,49 +270,72 @@ const Dashhboard = () => {
       </Link>
 
       <section className="d-md-flex p-3 justify-content-between" style={{flexWrap: 'wrap'}}>
-        {ideas.map((idea) => (
-          
-            <div
-              key={idea._id}
-              className="p-3 mb-3 rounded-3 card"
-              style={{
-                width: "49%",
-                height: "auto",
-                boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              <div className="d-flex gap-3">
-                <img
-                  src="/idea.jpg"
-                  alt=""
-                  width={"30px"}
-                  className="rounded-circle"
-                />
-                <span style={{color:'#0f0f1e', fontWeight:'bolder'}}>
-                  {idea.createdBy?.firstname} {idea.createdBy?.lastname}
-                </span>
-              </div>
-              <h5 className="py-2" style={{color:'#003D9B'}}>{idea.title}</h5>
-              <p style={{ fontSize: "12px" }}>{idea.shortDescription} <Link
-            key={idea._id}
-            to={`/idea/${idea._id}`}
-            style={{fontStyle:'oblique'}}
-          >read more...</Link></p>
-              <div className="d-flex justify-content-between">
-                <div className="d-flex gap-2">
-                  <span className="p-1 rounded-pill d-flex align-items-center justify-content-center"
-                style={{ fontSize: "10px", backgroundColor:'#ccc' }}>#{idea.tag1}</span>
-                  <span className="p-1 rounded-pill  d-flex align-items-center justify-content-center"
-                style={{ fontSize: "10px", backgroundColor:'#ccc' }}>#{idea.tag2}</span>
-                </div>
-                <button className="btn btn-light d-flex align-items-center justify-content-center rounded-pill"
-                  style={{ fontSize: "12px", backgroundColor:'#68FADD' }}  onClick={() => handleUpvote(idea._id)}>
-                  <img src="/upvote.svg" alt="" width={'10px'}/>
-                  <span>{idea.upvotes?.length || 0}</span>
-                </button>
-              </div>
-            </div>
-        ))}
+    {ideas.map((idea) => (
+
+  <div
+    key={idea._id}
+    className="p-3 mb-3 rounded-3 card"
+    style={{
+      width: "49%",
+      height: "auto",
+      boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.5)",
+    }}
+  >
+
+    <div className="d-flex gap-3">
+      <img
+        src={idea.createdBy?.image}
+        alt=""
+        width={"30px"} height={'30px'}
+        className="rounded-circle"
+      />
+      <span style={{ color:'#003D9B', fontWeight:'bolder' }}>
+        {idea.createdBy?.firstname} {idea.createdBy?.lastname}
+      </span>
+    </div>
+
+    <h5 className="py-2" style={{ color:'#003D9B' }}>
+      {idea.title}
+    </h5>
+
+    <p style={{ fontSize: "12px" }}>
+      {idea.shortDescription}{" "}
+      <Link
+        to={`/idea/${idea._id}`}
+        style={{ fontStyle:'oblique' }}
+      >
+        read more...
+      </Link>
+    </p>
+
+    <div className="d-flex justify-content-between">
+
+      <div className="d-flex gap-2">
+        <span className="p-1 rounded-pill d-flex align-items-center justify-content-center"
+          style={{ fontSize: "10px", backgroundColor:'#ccc' }}>
+          #{idea.tag1}
+        </span>
+
+        <span className="p-1 rounded-pill d-flex align-items-center justify-content-center"
+          style={{ fontSize: "10px", backgroundColor:'#ccc' }}>
+          #{idea.tag2}
+        </span>
+      </div>
+
+      <button
+        className="btn btn-light d-flex align-items-center justify-content-center rounded-pill"
+        style={{ fontSize: "12px", backgroundColor:'#68FADD' }}
+        onClick={() => handleUpvote(idea._id)}
+      >
+        <img src="/upvote.svg" alt="" width={'10px'} />
+        <span>{idea.upvotes?.length || 0}</span>
+      </button>
+
+    </div>
+
+  </div>
+
+))}
       </section>
 
      

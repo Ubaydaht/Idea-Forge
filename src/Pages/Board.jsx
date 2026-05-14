@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import './General.css'
 import {  DragDropContext,  Droppable,  Draggable} from "@hello-pangea/dnd";
+import { Link } from 'react-router-dom'
 
 const Board = () => {
   const { id } = useParams();
@@ -151,7 +152,9 @@ const handleDragEnd = async (result) => {
   return (
     <>
       <DashboardNav />
-
+<Link to='/dashhboard' className='d-flex align-items-center gap-2 p-3' style={{textDecoration:'none', color:'#003D9B'}}>
+   <span className='fw-bold ps-3' style={{fontSize:'10px'}}><img src="/left.svg" alt="" />BACK TO DASHBOARD</span>
+   </Link>
       <div style={{ padding: "20px" }}>
         <h2>Collaboration Board</h2>
         <p> {idea.title}</p>
@@ -159,6 +162,7 @@ const handleDragEnd = async (result) => {
         <span>
           {idea.shortDescription}
         </span>
+        <p className='pt-3 fw-bold' style={{color:'#003B9D', fontStyle:'oblique'}}>Drag and drop tasks to update their status</p>
         <DragDropContext onDragEnd={handleDragEnd}>
 
         <section className='d-md-flex justify-content-between pt-4'>

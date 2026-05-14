@@ -1,7 +1,9 @@
 import React from 'react'
-import ExploreNav from '../components/ExploreNav'
+import DashhoardNav from '../components/DashboardNav'
+import './General.css'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const Notification = () => {
 
@@ -21,12 +23,13 @@ useEffect(() => {
 }, []);
   return (
   <>
-  <div style={{ height:'100vh'}}>
-    <nav className='d-flex justify-content-between px-4 py-2'>
-       <h1 style={{color:'#003d9b'}}>Activity Feed</h1>
-       <input type="text" placeholder='Search notifications...'
-       className='border rounded-pill' />
-   </nav>
+  <DashhoardNav />
+  <div>
+   <Link to='/dashhboard' className='d-flex align-items-center gap-2 p-3' style={{textDecoration:'none', color:'#003D9B'}}>
+   <span className='fw-bold ps-3' style={{fontSize:'10px'}}><img src="/left.svg" alt="" />BACK TO DASHBOARD</span>
+   </Link>
+    <h1 className='p-1 ps-4' style={{color:'#003d9b'}}>Notifications</h1>
+      
    <hr />
     <div>
       {
