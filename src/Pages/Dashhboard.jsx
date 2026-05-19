@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BottomNav } from "../components/BottomNav";
 
 const Dashhboard = () => {
   let navigate = useNavigate();
@@ -139,7 +140,7 @@ useEffect(() => {
 />
 
       </div>
-      <div className="d-flex justify-content-between p-3">
+      {/* <div className="d-flex justify-content-between p-3">
         <div className="d-flex gap-3">
           <button
             className="rounded-pill border border-none text-white fw-medium"
@@ -162,7 +163,7 @@ useEffect(() => {
             Filter
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* first row */}
       {!search.trim() && (
@@ -269,7 +270,7 @@ useEffect(() => {
         </button>
       </Link>
 
-      <section className="d-md-flex p-3 justify-content-between" style={{flexWrap: 'wrap'}}>
+      <section className="d-md-flex p-3 mb-5 justify-content-between" style={{flexWrap: 'wrap'}}>
     {ideas.map((idea) => (
 
   <div
@@ -337,8 +338,9 @@ useEffect(() => {
 
 ))}
       </section>
+<BottomNav />
 
-     
+
     </>
   );
 };

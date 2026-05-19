@@ -20,17 +20,12 @@ const DashboardNav = () => {
           <Link to='/dashhboard' className="navbar-brand" href="#">
             <span className="text-primary">Idea</span>Forge
           </Link>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+
+          <Link to='/newidea' className="d-md-none">
+            <button className="btn text-light d-md-none" style={{backgroundColor:'#003D9B'}}
+         ><img src="/plus.svg" alt="" /> Create new Idea
+             </button>
+          </Link>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto d-flex align-items-center gap-3">
              

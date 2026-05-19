@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { Link } from 'react-router-dom'
 import DashboardNav from '../components/DashboardNav';
+import { BottomNav } from '../components/BottomNav';
 
 
 const NewIdea = () => {
@@ -64,17 +65,14 @@ const NewIdea = () => {
     <>
     <DashboardNav/>
        <section className='px-5'>
-         <nav className='d-flex justify-content-between align-items-center py-3'>
-         <div className='d-flex align-items-center gap-4'>
-          <Link to="/dashhboard"> 
-          <img src="/cancel.svg" alt="" />
-          </Link>
-          <span>New Idea</span>
-         </div>
-        </nav>
+         
+          <h1 className='pt-3' style={{color:'#003D9B'}}>New Idea</h1>
+          <hr className='pb-3' />
+         
         
-        <div className='d-flex justify-content-center align-items-center'>
-          <form action="" className='d-flex flex-column gap-3 '>
+        
+        <div className='d-flex justify-content-center align-items-center mb-5'>
+          <form action="" className='d-flex flex-column gap-3 mb-3 '>
             <h1>Post New Idea</h1>
            {/* <p>Share your idea with your community</p> */}
             <label htmlFor="title">Title:</label>
@@ -124,6 +122,7 @@ const NewIdea = () => {
         </form>
         </div>
        </section>
+       <BottomNav />
     </>
   )
 }

@@ -4,6 +4,7 @@ import "./IdeaDetail.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { BottomNav } from "../components/BottomNav";
 
 const IdeaDetail = () => {
   const { id } = useParams();
@@ -11,9 +12,7 @@ const IdeaDetail = () => {
   const [idea, setIdea] = useState(null);
   const [comment, setComment] = useState("");
 
-  // ========================
-  // FETCH SINGLE IDEA
-  // ========================
+//  idea fetching 
   const fetchIdea = async () => {
     try {
       const res = await axios.get(
@@ -29,9 +28,7 @@ const IdeaDetail = () => {
     fetchIdea();
   }, [id]);
 
-  // ========================
-  // UPVOTE / UNVOTE
-  // ========================
+//  upvote 
   const handleUpvote = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -48,9 +45,7 @@ const IdeaDetail = () => {
     }
   };
 
-  // ========================
-  // ADD COMMENT
-  // ========================
+//  comment 
   const handleComment = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -68,22 +63,15 @@ const IdeaDetail = () => {
     }
   };
 
-  // ========================
-  // LOADING STATE
-  // ========================
-  if (!idea) return <h2>Loading...</h2>;
+//  loading state 
+  if (!idea) return <div className="d-flex justify-content-center align-items-center bg-light text-primary" style={{height: '100vh'}}>Loading...</div>;
 
-  // ========================
-  // UI
-  // ========================
+ 
   return (
     <>
       <DashboardNav />
-      <Link to='/dashhboard' className='d-flex align-items-center gap-2 p-3' style={{textDecoration:'none', color:'#003D9B'}}>
-         <span className='fw-bold ps-3' style={{fontSize:'10px'}}><img src="/left.svg" alt="" />BACK TO DASHBOARD</span>
-        </Link>
-
-      <section className="d-md-flex justify-content-between gap-3  p-5">
+    
+      <section className="d-md-flex justify-content-between gap-3 detail">
         {/* LEFT SIDE */}
         <div className="left">
           <div className=" top d-flex justify-content-between">
@@ -196,6 +184,7 @@ const IdeaDetail = () => {
           ))}
         </div>
       </section>
+      <BottomNav />
     </>
   );
 };

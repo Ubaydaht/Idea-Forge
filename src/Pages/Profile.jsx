@@ -3,6 +3,7 @@ import DashboardNav from '../components/DashboardNav'
 import './General.css'
 import { Link } from 'react-router-dom'
 import React, { useRef, useState } from "react";
+import { BottomNav } from '../components/BottomNav';
 
 const Profile = () => {
 
@@ -13,7 +14,7 @@ const Profile = () => {
   return (
     <>
         <DashboardNav />
-       <section className='px-4 py-1'>
+       <section className='px-4 py-1 mb-4'>
          <p className='text-center fs-2' style={{color:'#003D8B'}}>My Profile</p>
        
         <div className='d-flex justify-content-center'>
@@ -40,9 +41,11 @@ const Profile = () => {
         <button className='btn btn-danger mt-3 w-100'>Sign Out</button>
     </Link>
       <Link to='/login'>
-        <button className='btn btn-dark mt-3 w-100'>Sign in to another account</button>
+        <button className='btn btn-dark mt-3 mb-5 w-100'>Sign in to another account</button>
       </Link>
        </section>
+
+       <BottomNav />
 
     </>
   )
